@@ -12,15 +12,21 @@ class TestTestaddgroup():
     self.driver.quit()
   
   def test_testaddgroup(self):
+    # Open homepage
     self.driver.get("http://localhost/addressbook/group.php")
+    # login
     self.driver.find_element(By.NAME, "user").send_keys("admin")
     self.driver.find_element(By.NAME, "pass").send_keys("secret")
+    #open group page
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
+    # create new group
     self.driver.find_element(By.NAME, "new").click()
     self.driver.find_element(By.NAME, "group_name").send_keys("NewTestGroup")
     self.driver.find_element(By.NAME, "group_header").send_keys("asdasdsda")
     self.driver.find_element(By.NAME, "group_footer").send_keys("asdasdasd")
     self.driver.find_element(By.NAME, "submit").click()
+    # return to group page
     self.driver.find_element(By.LINK_TEXT, "group page").click()
+    # logout
     self.driver.find_element(By.LINK_TEXT, "Logout").click()
   
