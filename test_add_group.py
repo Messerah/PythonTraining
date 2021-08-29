@@ -11,9 +11,6 @@ def app(request):
     return fixture
 
 
-
-
-
 def test_add_group(app):
     app.login()
     app.create_new_group(Group(name="NewTestGroup", header="header", footer="footer"))
