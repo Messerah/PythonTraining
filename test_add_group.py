@@ -10,12 +10,10 @@ def app(request):
     request.addfinalizer(fixture.destroy)
     return fixture
 
-
 def test_add_group(app):
     app.login()
     app.create_new_group(Group(name="NewTestGroup", header="header", footer="footer"))
     app.logout()
-
 
 def test_add_empty_group(app):
     app.login()
