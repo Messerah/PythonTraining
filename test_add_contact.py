@@ -3,8 +3,7 @@ import unittest
 
 from selenium import webdriver
 
-
-#from Contact import Contact
+from contact import Contact
 
 
 class UntitledTestCase(unittest.TestCase):
@@ -16,9 +15,15 @@ class UntitledTestCase(unittest.TestCase):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver)
-        self.create_new_contact(driver)
+        self.open_contact_creation_page()
+        self.create_new_contact(
+            Contact(firstname="Trolo", middlename="trololovich", lastname="Tsdf", nickname="sdfs", title="God",
+                    company="JSC", address="TroloLand", email="testmail@yandex.ru"))
         self.return_to_home_page(driver)
         self.logout(driver)
+
+    def open_contact_creation_page(self):
+        self.driver.find_element_by_link_text("add new").click()
 
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
@@ -26,17 +31,16 @@ class UntitledTestCase(unittest.TestCase):
     def return_to_home_page(self, driver):
         driver.find_element_by_link_text("home page").click()
 
-    def create_new_contact(self, driver):
-        driver.find_element_by_link_text("add new").click()
-        driver.find_element_by_name("firstname").send_keys("TEST")
-        driver.find_element_by_name("middlename").send_keys("TEST")
-        driver.find_element_by_name("lastname").send_keys("TEST")
-        driver.find_element_by_name("nickname").send_keys("TEST")
-        driver.find_element_by_name("title").send_keys("TEST")
-        driver.find_element_by_name("company").send_keys("TEST")
-        driver.find_element_by_name("address").send_keys("TEST")
-        driver.find_element_by_name("email").send_keys("Test")
-        driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+    def create_new_contact(self, Contact):
+        self.driver.find_element_by_name("firstname").send_keys(Contact.firstname)
+        self.driver.find_element_by_name("middlename").send_keys(Contact.middlename)
+        self.driver.find_element_by_name("lastname").send_keys(Contact.lastname)
+        self.driver.find_element_by_name("nickname").send_keys(Contact.nickname)
+        self.driver.find_element_by_name("title").send_keys(Contact.title)
+        self.driver.find_element_by_name("company").send_keys(Contact.company)
+        self.driver.find_element_by_name("address").send_keys(Contact.address)
+        self.driver.find_element_by_name("email").send_keys(Contact.email)
+        self.driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def login(self, driver):
         driver.find_element_by_name("user").send_keys("admin")
