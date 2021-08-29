@@ -11,14 +11,25 @@ class UntitledTestCase(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
 
-    def test_untitled_test_case(self):
+    def test_create_contact(self):
         driver = self.driver
         self.open_home_page(driver)
         self.login(driver)
         self.open_contact_creation_page()
         self.create_new_contact(
-            Contact(firstname="Trolo", middlename="trololovich", lastname="Tsdf", nickname="sdfs", title="God",
-                    company="JSC", address="TroloLand", email="testmail@yandex.ru"))
+            Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
+                    company="JSC", address="TroloLand", email="trolo@yandex.ru"))
+        self.return_to_home_page(driver)
+        self.logout(driver)
+
+    def test_create_empty_contact(self):
+        driver = self.driver
+        self.open_home_page(driver)
+        self.login(driver)
+        self.open_contact_creation_page()
+        self.create_new_contact(
+            Contact(firstname="", middlename="", lastname="", nickname="", title="",
+                    company="", address="", email=""))
         self.return_to_home_page(driver)
         self.logout(driver)
 
