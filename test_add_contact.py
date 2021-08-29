@@ -13,36 +13,31 @@ class UntitledTestCase(unittest.TestCase):
 
     def test_create_contact(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver)
-        self.open_contact_creation_page()
         self.create_new_contact(
             Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
                     company="JSC", address="TroloLand", email="trolo@yandex.ru"))
-        self.return_to_home_page(driver)
         self.logout(driver)
 
     def test_create_empty_contact(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver)
-        self.open_contact_creation_page()
         self.create_new_contact(
             Contact(firstname="", middlename="", lastname="", nickname="", title="",
                     company="", address="", email=""))
-        self.return_to_home_page(driver)
         self.logout(driver)
 
-    def open_contact_creation_page(self):
-        self.driver.find_element_by_link_text("add new").click()
+
+
 
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
 
-    def return_to_home_page(self, driver):
-        driver.find_element_by_link_text("home page").click()
+
+
 
     def create_new_contact(self, Contact):
+        self.driver.find_element_by_link_text("add new").click()
         self.driver.find_element_by_name("firstname").send_keys(Contact.firstname)
         self.driver.find_element_by_name("middlename").send_keys(Contact.middlename)
         self.driver.find_element_by_name("lastname").send_keys(Contact.lastname)
@@ -52,14 +47,15 @@ class UntitledTestCase(unittest.TestCase):
         self.driver.find_element_by_name("address").send_keys(Contact.address)
         self.driver.find_element_by_name("email").send_keys(Contact.email)
         self.driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.driver.find_element_by_link_text("home page").click()
 
     def login(self, driver):
+        driver.get("http://localhost/addressbook/index.php")
         driver.find_element_by_name("user").send_keys("admin")
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_home_page(self, driver):
-        driver.get("http://localhost/addressbook/index.php")
+
 
     def tearDown(self):
         self.driver.quit()

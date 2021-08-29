@@ -14,42 +14,32 @@ class TestAddGroup:
         self.driver.quit()
 
     def test_add_group(self):
-
-        self.open_homepage()
         self.login(username="admin", password="secret")
-        self.open_group_page()
         self.create_new_group(Group(name="NewTestGroup", header="header", footer="footer"))
-        self.return_to_group_page()
         self.logout()
 
     def test_add_empty_group(self):
-
-        self.open_homepage()
         self.login(username="admin", password="secret")
-        self.open_group_page()
         self.create_new_group(Group(name="", header="", footer=""))
-        self.return_to_group_page()
         self.logout()
 
     def logout(self):
         self.driver.find_element(By.LINK_TEXT, "Logout").click()
 
-    def return_to_group_page(self):
-        self.driver.find_element(By.LINK_TEXT, "group page").click()
+
 
     def create_new_group(self, Group):
+        self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
         self.driver.find_element(By.NAME, "new").click()
         self.driver.find_element(By.NAME, "group_name").send_keys(Group.name)
         self.driver.find_element(By.NAME, "group_header").send_keys(Group.header)
         self.driver.find_element(By.NAME, "group_footer").send_keys(Group.footer)
         self.driver.find_element(By.NAME, "submit").click()
+        self.driver.find_element(By.LINK_TEXT, "group page").click()
 
-    def open_group_page(self):
-        self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
+
 
     def login(self, username, password):
+        self.driver.get("http://localhost/addressbook/group.php")
         self.driver.find_element(By.NAME, "user").send_keys(username)
         self.driver.find_element(By.NAME, "pass").send_keys(password)
-
-    def open_homepage(self):
-        self.driver.get("http://localhost/addressbook/group.php")
