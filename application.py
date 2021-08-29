@@ -3,7 +3,7 @@ from selenium import webdriver
 
 class Application:
     def __init__(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(30)
 
     def logout(self):
@@ -30,6 +30,14 @@ class Application:
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
+    def create_new_group(self, Group):
+        self.driver.find_element_by_link_text("groups").click()
+        self.driver.find_element_by_name("new").click()
+        self.driver.find_element_by_name("group_name").send_keys(Group.name)
+        self.driver.find_element_by_name("group_header").send_keys(Group.header)
+        self.driver.find_element_by_name("group_footer").send_keys(Group.footer)
+        self.driver.find_element_by_name("submit").click()
+        self.driver.find_element_by_link_text("group page").click()
+
     def destroy(self):
         self.driver.quit()
-
