@@ -12,7 +12,6 @@ class UntitledTestCase(unittest.TestCase):
         self.driver.implicitly_wait(30)
 
     def test_create_contact(self):
-
         self.login()
         self.create_new_contact(
             Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
@@ -20,25 +19,17 @@ class UntitledTestCase(unittest.TestCase):
         self.logout()
 
     def test_create_empty_contact(self):
-        driver = self.driver
         self.login()
         self.create_new_contact(
             Contact(firstname="", middlename="", lastname="", nickname="", title="",
                     company="", address="", email=""))
         self.logout()
 
-
-
-
     def logout(self):
         driver = self.driver
         driver.find_element_by_link_text("Logout").click()
 
-
-
-
     def create_new_contact(self, Contact):
-
         self.driver.find_element_by_link_text("add new").click()
         self.driver.find_element_by_name("firstname").send_keys(Contact.firstname)
         self.driver.find_element_by_name("middlename").send_keys(Contact.middlename)
@@ -57,8 +48,6 @@ class UntitledTestCase(unittest.TestCase):
         driver.find_element_by_name("user").send_keys("admin")
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
-
-
 
     def tearDown(self):
         self.driver.quit()
