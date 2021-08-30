@@ -4,7 +4,7 @@ class SessionHelper:
 
     def login(self):
         driver = self.app.driver
-        self.app.driver.get("http://localhost/addressbook/index.php")
+        driver.get("http://localhost/addressbook/index.php")
         driver.find_element_by_name("user").send_keys("admin")
         driver.find_element_by_name("pass").send_keys("secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()

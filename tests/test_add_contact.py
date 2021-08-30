@@ -2,8 +2,8 @@
 
 import pytest
 
-from contact import Contact
 from fixture.application import Application
+from model.Contact import Contact
 
 
 @pytest.fixture()
@@ -15,7 +15,7 @@ def app(request):
 
 def test_create_contact(app):
     app.session.login()
-    app.create_new_contact(
+    app.contact.create(
         Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
                 company="JSC", address="TroloLand", email="trolo@yandex.ru"))
     app.session.logout()
@@ -23,7 +23,7 @@ def test_create_contact(app):
 
 def test_create_empty_contact(app):
     app.session.login()
-    app.create_new_contact(
+    app.contact.create(
         Contact(firstname="", middlename="", lastname="", nickname="", title="",
                 company="", address="", email=""))
     app.session.logout()
