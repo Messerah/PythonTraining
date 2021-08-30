@@ -1,14 +1,13 @@
 from selenium import webdriver
 
+from fixture.session import SessionHelper
+
 
 class Application:
     def __init__(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(30)
-
-    def logout(self):
-        driver = self.driver
-        driver.find_element_by_link_text("Logout").click()
+        self.session = SessionHelper(self)
 
     def create_new_contact(self, Contact):
         self.driver.find_element_by_link_text("add new").click()
@@ -22,13 +21,6 @@ class Application:
         self.driver.find_element_by_name("email").send_keys(Contact.email)
         self.driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.driver.find_element_by_link_text("home page").click()
-
-    def login(self):
-        driver = self.driver
-        driver.get("http://localhost/addressbook/index.php")
-        driver.find_element_by_name("user").send_keys("admin")
-        driver.find_element_by_name("pass").send_keys("secret")
-        driver.find_element_by_xpath("//input[@value='Login']").click()
 
     def create_new_group(self, Group):
         self.driver.find_element_by_link_text("groups").click()

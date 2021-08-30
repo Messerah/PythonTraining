@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Another homework is ready!!!
+
 import pytest
 
 from contact import Contact
@@ -14,16 +14,16 @@ def app(request):
 
 
 def test_create_contact(app):
-    app.login()
+    app.session.login()
     app.create_new_contact(
         Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
                 company="JSC", address="TroloLand", email="trolo@yandex.ru"))
-    app.logout()
+    app.session.logout()
 
 
 def test_create_empty_contact(app):
-    app.login()
+    app.session.login()
     app.create_new_contact(
         Contact(firstname="", middlename="", lastname="", nickname="", title="",
                 company="", address="", email=""))
-    app.logout()
+    app.session.logout()
