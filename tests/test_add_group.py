@@ -1,8 +1,8 @@
 # Another homework is ready!!!
 import pytest
 
-from Group import Group
-from application import Application
+from fixture.application import Application
+from model.Group import Group
 
 
 @pytest.fixture()
