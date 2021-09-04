@@ -28,3 +28,4 @@ class GroupHelper:
         driver.find_element_by_name("group_header").send_keys(group.header)
         driver.find_element_by_name("group_footer").send_keys(group.footer)
         driver.find_element_by_name("update").click()
+        driver.find_element_by_link_text("group page").click()
