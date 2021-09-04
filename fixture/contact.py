@@ -16,4 +16,9 @@ class ContactHelper:
         driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         driver.find_element_by_link_text("home page").click()
 
+    def delete(self):
+        driver = self.app.driver
+        driver.find_element_by_name("selected[]").click()
+        driver.find_element_by_xpath("//input[@value='Delete']").click()
+        driver.switch_to_alert().accept()
 
