@@ -6,14 +6,20 @@ class GroupHelper:
         driver = self.app.driver
         self.open_group_list(driver)
         driver.find_element_by_name("new").click()
-        self.fill_in_form(driver, group)
+        self.fill_in_form(group)
         driver.find_element_by_name("submit").click()
         self.return_to_group_page(driver)
 
-    def fill_in_form(self, driver, group):
-        driver.find_element_by_name("group_name").send_keys(group.name)
-        driver.find_element_by_name("group_header").send_keys(group.header)
-        driver.find_element_by_name("group_footer").send_keys(group.footer)
+    def fill_in_form(self, group):
+        self.change_field_value("group_name", group.name)
+        self.change_field_value("group_header", group.header)
+        self.change_field_value("group_footer", group.footer)
+
+    def change_field_value(self, field_name, text):
+        driver = self.app.driver
+        if text is not None:
+            driver.find_element_by_name(field_name).click()
+            driver.find_element_by_name(field_name).send_keys(text)
 
     def return_to_group_page(self, driver):
         driver.find_element_by_link_text("group page").click()
@@ -21,16 +27,19 @@ class GroupHelper:
     def delete_first_group(self):
         driver = self.app.driver
         self.open_group_list(driver)
-        driver.find_element_by_name("selected[]").click()
+        self.select_first_group(driver)
         driver.find_element_by_name("delete").click()
         self.return_to_group_page(driver)
 
-    def update(self, group):
+    def select_first_group(self, driver):
+        driver.find_element_by_name("selected[]").click()
+
+    def update_first_group(self, group):
         driver = self.app.driver
         self.open_group_list(driver)
-        driver.find_element_by_name("selected[]").click()
+        self.select_first_group(driver)
         driver.find_element_by_name("edit").click()
-        self.fill_in_form(driver, group)
+        self.fill_in_form(group)
         driver.find_element_by_name("update").click()
         self.return_to_group_page(driver)
 
