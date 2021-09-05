@@ -19,6 +19,7 @@ class GroupHelper:
         driver = self.app.driver
         if text is not None:
             driver.find_element_by_name(field_name).click()
+            driver.find_element_by_name(field_name).clear()
             driver.find_element_by_name(field_name).send_keys(text)
 
     def return_to_group_page(self, driver):
