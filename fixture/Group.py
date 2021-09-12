@@ -46,3 +46,10 @@ class GroupHelper:
 
     def open_group_list(self, driver):
         driver.find_element_by_link_text("groups").click()
+
+    def count(self):
+        driver = self.app.driver
+        self.open_group_list(driver)
+        return len(driver.find_elements_by_name("selected[]"))
+
+
