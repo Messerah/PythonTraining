@@ -17,10 +17,10 @@ def app(request):
             fixture.session.login()
     return fixture
 
+
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
         fixture.session.logout()
         fixture.destroy()
-        request.addfinalizer(fin)
-
+    request.addfinalizer(fin)
