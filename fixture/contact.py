@@ -27,7 +27,8 @@ class ContactHelper:
         driver.switch_to_alert().accept()
 
     def open_homepage(self, driver):
-        driver.find_element_by_link_text("home").click()
+        if not (driver.current_url.endswith("addressbook/") and len(driver.find_elements_by_name("Delete")) > 0):
+            driver.find_element_by_link_text("home").click()
 
     def update(self, contact):
         driver = self.app.driver

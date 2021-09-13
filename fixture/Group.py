@@ -40,18 +40,16 @@ class GroupHelper:
         self.open_group_list(driver)
         self.select_first_group(driver)
         driver.find_element_by_name("edit").click()
+
         self.fill_in_form(group)
         driver.find_element_by_name("update").click()
         self.return_to_group_page(driver)
 
     def open_group_list(self, driver):
-        driver.find_element_by_link_text("groups").click()
+        if not (driver.current_url.endswith("/group.php") and len(driver.find_elements_by_name("new")) > 0):
+            driver.find_element_by_link_text("groups").click()
 
     def count(self):
         driver = self.app.driver
         self.open_group_list(driver)
         return len(driver.find_elements_by_name("selected[]"))
-
-
-
-
