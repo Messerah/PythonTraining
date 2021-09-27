@@ -46,3 +46,4 @@ class ContactHelper:
         self.open_homepage(driver)
         return len(driver.find_elements_by_name("selected[]"))
 
+

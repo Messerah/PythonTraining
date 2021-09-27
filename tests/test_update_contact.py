@@ -2,6 +2,7 @@ from model.Contact import Contact
 
 
 def test_update_first_contact(app):
+    old_contacts = app.contact.count()
     if app.contact.count() == 0:
         app.contact.create(
             Contact(firstname="Trolo", middlename="trololoev", lastname="Trolevich", nickname="Trol", title="God",
@@ -9,4 +10,6 @@ def test_update_first_contact(app):
     app.contact.update(
         Contact(firstname="Updated", middlename="Updated", lastname="Updated", nickname="Updated", title="Updated",
                 company="Updated", address="Updated", email="trolo@yandex.ru"))
+    new_contacts = app.contact.count()
+    assert old_contacts == new_contacts
 
