@@ -1,4 +1,4 @@
-from sys import  maxsize
+from sys import maxsize
 
 
 class Group:

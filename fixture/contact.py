@@ -49,14 +49,17 @@ class ContactHelper:
         self.open_homepage(driver)
         return len(driver.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        driver = self.app.driver
-        self.open_homepage(driver)
-        contacts = []
-        for element in (driver.find_elements_by_css_selector("tr")[1:]):
-            cells = element.find_elements_by_tag_name('td')
-            id = cells[0].get_attribute('value')
-            last_name = cells[1].text
-            first_name = cells[2].text
-            contacts.append(Contact(lastname=last_name, firstname=first_name, id=id))
-        return contacts
+        if self.contact_cache is None:
+            driver = self.app.driver
+            self.open_homepage(driver)
+            self.contact_cache = []
+            for element in (driver.find_elements_by_css_selector("tr")[1:]):
+                contact_id = element.find_element_by_name("selected[]").get_attribute('value')
+                cells = element.find_elements_by_tag_name('td')
+                last_name = cells[1].text
+                first_name = cells[2].text
+                self.contact_cache.append(Contact(lastname=last_name, firstname=first_name, id=contact_id))
+        return list(self.contact_cache)
