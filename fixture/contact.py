@@ -8,12 +8,13 @@ class ContactHelper:
     def create(self, contact):
         driver = self.app.driver
         driver.find_element_by_link_text("add new").click()
-        self.fill_in_form(contact, driver)
+        self.fill_in_form(contact)
         driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.return_to_homepage(driver)
+        self.return_to_homepage()
         self.contact_cache = None
 
-    def fill_in_form(self, contact, driver):
+    def fill_in_form(self, contact):
+        driver = self.app.driver
         driver.find_element_by_name("firstname").clear()
         driver.find_element_by_name("firstname").send_keys(contact.firstname)
         driver.find_element_by_name("middlename").clear()
@@ -31,34 +32,41 @@ class ContactHelper:
         driver.find_element_by_name("email").clear()
         driver.find_element_by_name("email").send_keys(contact.email)
 
-
-    def delete(self):
+    def delete_contact_by_index(self, index):
         driver = self.app.driver
-        self.open_homepage(driver)
-        driver.find_element_by_name("selected[]").click()
+        self.open_homepage()
+        driver.find_elements_by_name("selected[]")[index].click()
         driver.find_element_by_xpath("//input[@value='Delete']").click()
         driver.switch_to_alert().accept()
         self.contact_cache = None
 
-    def open_homepage(self, driver):
+    def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def open_homepage(self):
+        driver = self.app.driver
         if not (driver.current_url.endswith("addressbook/") and len(driver.find_elements_by_name("Delete")) > 0):
             driver.find_element_by_link_text("home").click()
 
-    def update(self, contact):
+    def update_contact_by_index(self, contact, index):
         driver = self.app.driver
-        self.open_homepage(driver)
-        driver.find_element_by_css_selector("img[alt='Edit']").click()
-        self.fill_in_form(contact, driver)
+        self.open_homepage()
+        driver.find_elements_by_css_selector("img[alt='Edit']")[index].click()
+        self.fill_in_form(contact)
         driver.find_element_by_name("update").click()
-        self.return_to_homepage(driver)
+        self.return_to_homepage()
         self.contact_cache = None
 
-    def return_to_homepage(self, driver):
+    def update_first_contact(self):
+        self.update_contact_by_index(0)
+
+    def return_to_homepage(self):
+        driver = self.app.driver
         driver.find_element_by_link_text("home page").click()
 
     def count(self):
         driver = self.app.driver
-        self.open_homepage(driver)
+        self.open_homepage()
         return len(driver.find_elements_by_name("selected[]"))
 
     contact_cache = None
@@ -66,7 +74,7 @@ class ContactHelper:
     def get_contact_list(self):
         if self.contact_cache is None:
             driver = self.app.driver
-            self.open_homepage(driver)
+            self.open_homepage()
             self.contact_cache = []
             for element in (driver.find_elements_by_css_selector("tr")[1:]):
                 contact_id = element.find_element_by_name("selected[]").get_attribute('value')

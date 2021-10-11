@@ -11,7 +11,7 @@ class GroupHelper:
         driver.find_element_by_name("new").click()
         self.fill_in_form(group)
         driver.find_element_by_name("submit").click()
-        self.return_to_group_page(driver)
+        self.return_to_group_page()
         self.group_cache = None
 
     def fill_in_form(self, group):
