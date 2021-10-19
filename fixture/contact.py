@@ -1,3 +1,5 @@
+import re
+
 from model.Contact import Contact
 
 
@@ -37,8 +39,6 @@ class ContactHelper:
         driver.find_element_by_name("mobile").send_keys(contact.mobilephone)
         driver.find_element_by_name("work").clear()
         driver.find_element_by_name("work").send_keys(contact.workphone)
-
-
 
     def delete_contact_by_index(self, index):
         driver = self.app.driver
@@ -119,4 +119,14 @@ class ContactHelper:
         workphone = driver.find_element_by_name("work").get_attribute("value")
         mobilephone = driver.find_element_by_name("mobile").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, workphone=workphone,
+                       mobilephone=mobilephone)
+
+    def get_contact_from_view_page(self, index):
+        driver = self.app.driver
+        self.open_contact_view_by_index(index)
+        text = driver.find_element_by_id("content").text
+        homephone = re.search("H: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        return Contact(homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone)
