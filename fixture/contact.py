@@ -31,6 +31,14 @@ class ContactHelper:
         driver.find_element_by_name("address").send_keys(contact.address)
         driver.find_element_by_name("email").clear()
         driver.find_element_by_name("email").send_keys(contact.email)
+        driver.find_element_by_name("home").clear()
+        driver.find_element_by_name("home").send_keys(contact.homephone)
+        driver.find_element_by_name("mobile").clear()
+        driver.find_element_by_name("mobile").send_keys(contact.mobilephone)
+        driver.find_element_by_name("work").clear()
+        driver.find_element_by_name("work").send_keys(contact.workphone)
+
+
 
     def delete_contact_by_index(self, index):
         driver = self.app.driver
@@ -81,5 +89,34 @@ class ContactHelper:
                 cells = element.find_elements_by_tag_name('td')
                 last_name = cells[1].text
                 first_name = cells[2].text
-                self.contact_cache.append(Contact(lastname=last_name, firstname=first_name, id=contact_id))
+                all_phones = cells[5].text.splitlines()
+                self.contact_cache.append(
+                    Contact(lastname=last_name, firstname=first_name, id=contact_id, homephone=all_phones[0],
+                            mobilephone=all_phones[1], workphone=all_phones[2]))
         return list(self.contact_cache)
+
+    def open_contact_view_by_index(self, index):
+        driver = self.app.driver
+        self.open_homepage()
+        row = driver.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name('td')[6]
+        cell.find_element_by_tag_name("a").click()
+
+    def open_contact_to_edit_by_index(self, index):
+        driver = self.app.driver
+        self.open_homepage()
+        row = driver.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name('td')[7]
+        cell.find_element_by_tag_name("a").click()
+
+    def get_contact_info_from_edit_page(self, index):
+        driver = self.app.driver
+        self.open_contact_to_edit_by_index(index)
+        firstname = driver.find_element_by_name("firstname").get_attribute("value")
+        lastname = driver.find_element_by_name("lastname").get_attribute("value")
+        id = driver.find_element_by_name("id").get_attribute("value")
+        homephone = driver.find_element_by_name("home").get_attribute("value")
+        workphone = driver.find_element_by_name("work").get_attribute("value")
+        mobilephone = driver.find_element_by_name("mobile").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, workphone=workphone,
+                       mobilephone=mobilephone)
