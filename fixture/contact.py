@@ -125,7 +125,7 @@ class ContactHelper:
         self.open_contact_view_by_index(index)
         text = driver.find_element_by_id("content").text
         homephone = re.search("H: (.*)", text).group(1)
-        workphone = re.search("W: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
         return Contact(homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone)
