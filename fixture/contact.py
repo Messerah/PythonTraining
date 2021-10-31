@@ -90,8 +90,11 @@ class ContactHelper:
                 last_name = cells[1].text
                 first_name = cells[2].text
                 all_phones = cells[5].text
+                address = cells[3].text,
+                email = cells[4].text
                 self.contact_cache.append(
-                    Contact(lastname=last_name, firstname=first_name, id=contact_id, all_phones_from_home_page=all_phones))
+                    Contact(lastname=last_name, firstname=first_name, address=address, email=email, id=contact_id,
+                            all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def open_contact_view_by_index(self, index):
@@ -117,8 +120,12 @@ class ContactHelper:
         homephone = driver.find_element_by_name("home").get_attribute("value")
         workphone = driver.find_element_by_name("work").get_attribute("value")
         mobilephone = driver.find_element_by_name("mobile").get_attribute("value")
+        address = driver.find_element_by_name("address").get_attribute("value")
+        email = driver.find_element_by_name("email").get_attribute("value")
+        email2 = driver.find_element_by_name("email2").get_attribute("value")
+        email3 = driver.find_element_by_name("email3").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, workphone=workphone,
-                       mobilephone=mobilephone)
+                       mobilephone=mobilephone, address=address, email=email, email2=email2, email3=email3)
 
     def get_contact_from_view_page(self, index):
         driver = self.app.driver
