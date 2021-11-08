@@ -91,9 +91,9 @@ class ContactHelper:
                 first_name = cells[2].text
                 all_phones = cells[5].text
                 address = cells[3].text,
-                email = cells[4].text
+                all_emails_from_homepage = cells[4].text
                 self.contact_cache.append(
-                    Contact(lastname=last_name, firstname=first_name, address=address, email=email, id=contact_id,
+                    Contact(lastname=last_name, firstname=first_name, address=address, all_emails_from_homepage=all_emails_from_homepage, id=contact_id,
                             all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
@@ -134,5 +134,7 @@ class ContactHelper:
         homephone = re.search("H: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
+
+
         return Contact(homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone)
